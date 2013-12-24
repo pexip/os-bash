@@ -1,7 +1,8 @@
 Source: bash
 Section: base
 Priority: required
-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Maintainer: Pexip AS <packaging@pexip.com>
+XSBC-Pexip-Original-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 XSBC-Original-Maintainer: Matthias Klose <doko@debian.org>
 Standards-Version: 3.9.3
 Build-Depends: autoconf, autotools-dev, quilt, bison, libncurses5-dev,
@@ -11,6 +12,7 @@ Build-Depends-Indep: texlive-latex-base, ghostscript
 Homepage: http://tiswww.case.edu/php/chet/bash/bashtop.html
 Vcs-Browser: https://code.launchpad.net/~doko/+junk/pkg-bash-debian
 Vcs-Bzr: http://bazaar.launchpad.net/~doko/+junk/pkg-bash-debian
+XS-Pexip-Upstream: http://archive.ubuntu.com/ubuntu/ precise
 
 Package: bash
 Architecture: any
