@@ -1,3 +1,11 @@
+bash (4.2-2ubuntu2.3) precise-security; urgency=medium
+
+  * SECURITY UPDATE: incomplete fix for CVE-2014-6271
+    - debian/patches/CVE-2014-7169.diff: fix logic in bash/parse.y.
+    - CVE-2014-7169
+
+ -- Marc Deslauriers <marc.deslauriers@ubuntu.com>  Thu, 25 Sep 2014 02:11:10 -0400
+
 bash (4.2-2ubuntu2.2) precise-security; urgency=medium
 
   * SECURITY UPDATE: incorrect function parsing
