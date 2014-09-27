@@ -1,3 +1,22 @@
+bash (4.2-2ubuntu2.5pexip1) pexip; urgency=low
+
+  * New upstream version.
+
+ -- John-Mark Bell <jmb@pexip.com>  Sat, 27 Sep 2014 11:08:27 +0100
+
+bash (4.2-2ubuntu2.5) precise-security; urgency=medium
+
+  * SECURITY UPDATE: out-of-bounds memory access
+    - debian/patches/CVE-2014-718x.diff: guard against overflow and fix
+      off-by-one in bash/parse.y.
+    - CVE-2014-7186
+    - CVE-2014-7187
+  * SECURITY IMPROVEMENT: use prefixes and suffixes for function exports
+    - debian/patches/variables-affix.diff: add prefixes and suffixes in
+      bash/variables.c.
+
+ -- Marc Deslauriers <marc.deslauriers@ubuntu.com>  Fri, 26 Sep 2014 13:27:53 -0400
+
 bash (4.2-2ubuntu2.3pexip1) pexip; urgency=low
 
   * New upstream version.
