@@ -51,5 +51,7 @@ exec-redirections-texi.diff
 hardening-formatstring.diff
 CVE-2014-6271.diff
 CVE-2014-7169.diff
-CVE-2014-718x.diff
 variables-affix.diff
+CVE-2014-718x.diff
+CVE-2014-6277.diff
+CVE-2014-6278.diff

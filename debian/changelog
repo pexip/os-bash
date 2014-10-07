@@ -1,3 +1,23 @@
+bash (4.2-2ubuntu2.6) precise-security; urgency=medium
+
+  * SECURITY UPDATE: incorrect function definition parsing with
+    here-document delimited by end-of-file
+    - debian/patches/CVE-2014-6277.diff: properly handle closing delimiter
+      in bash/copy_cmd.c, bash/make_cmd.c.
+    - CVE-2014-6277
+  * SECURITY UPDATE: incorrect function definition parsing via nested
+    command substitutions
+    - debian/patches/CVE-2014-6278.diff: properly handle certain parsing
+      attempts in bash/builtins/evalstring.c, bash/parse.y, bash/shell.h.
+    - CVE-2014-6278
+  * Updated patches with official upstream versions:
+    - debian/patches/CVE-2014-6271.diff
+    - debian/patches/CVE-2014-7169.diff
+    - debian/patches/variables-affix.diff
+    - debian/patches/CVE-2014-718x.diff
+
+ -- Marc Deslauriers <marc.deslauriers@ubuntu.com>  Tue, 07 Oct 2014 11:05:06 -0400
+
 bash (4.2-2ubuntu2.5) precise-security; urgency=medium
 
   * SECURITY UPDATE: out-of-bounds memory access
