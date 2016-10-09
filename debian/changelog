@@ -1,70 +1,313 @@
-bash (4.2-2ubuntu2.6) precise-security; urgency=medium
+bash (4.3-11+deb8u1) jessie; urgency=medium
 
-  * SECURITY UPDATE: incorrect function definition parsing with
-    here-document delimited by end-of-file
-    - debian/patches/CVE-2014-6277.diff: properly handle closing delimiter
-      in bash/copy_cmd.c, bash/make_cmd.c.
-    - CVE-2014-6277
-  * SECURITY UPDATE: incorrect function definition parsing via nested
-    command substitutions
-    - debian/patches/CVE-2014-6278.diff: properly handle certain parsing
-      attempts in bash/builtins/evalstring.c, bash/parse.y, bash/shell.h.
-    - CVE-2014-6278
-  * Updated patches with official upstream versions:
-    - debian/patches/CVE-2014-6271.diff
-    - debian/patches/CVE-2014-7169.diff
-    - debian/patches/variables-affix.diff
-    - debian/patches/CVE-2014-718x.diff
+  * Non-maintainer upload.
+  * CVE-2016-0634: Arbitrary code execution via malicious hostname
+  * CVE-2016-7543: Specially crafted SHELLOPTS+PS4 variables allows command
+    substitution
 
- -- Marc Deslauriers <marc.deslauriers@ubuntu.com>  Tue, 07 Oct 2014 11:05:06 -0400
+ -- Salvatore Bonaccorso <carnil@debian.org>  Sun, 09 Oct 2016 17:35:21 +0200
 
-bash (4.2-2ubuntu2.5) precise-security; urgency=medium
+bash (4.3-11) unstable; urgency=medium
 
-  * SECURITY UPDATE: out-of-bounds memory access
-    - debian/patches/CVE-2014-718x.diff: guard against overflow and fix
-      off-by-one in bash/parse.y.
-    - CVE-2014-7186
-    - CVE-2014-7187
-  * SECURITY IMPROVEMENT: use prefixes and suffixes for function exports
-    - debian/patches/variables-affix.diff: add prefixes and suffixes in
-      bash/variables.c.
+  * Apply upstream patches 028 - 030.
+  * Remove the parser-oob patch.
 
- -- Marc Deslauriers <marc.deslauriers@ubuntu.com>  Fri, 26 Sep 2014 13:27:53 -0400
+ -- Matthias Klose <doko@debian.org>  Tue, 07 Oct 2014 16:20:35 +0200
 
-bash (4.2-2ubuntu2.3) precise-security; urgency=medium
+bash (4.3-10) unstable; urgency=medium
 
-  * SECURITY UPDATE: incomplete fix for CVE-2014-6271
-    - debian/patches/CVE-2014-7169.diff: fix logic in bash/parse.y.
-    - CVE-2014-7169
+  * Apply upstream patches 026 and 027.
+  * Remove patches CVE-2014-6271 and variables-affix.
 
- -- Marc Deslauriers <marc.deslauriers@ubuntu.com>  Thu, 25 Sep 2014 02:11:10 -0400
+ -- Matthias Klose <doko@ubuntu.com>  Tue, 30 Sep 2014 13:36:38 +0200
 
-bash (4.2-2ubuntu2.2) precise-security; urgency=medium
+bash (4.3-9.2) unstable; urgency=high
 
-  * SECURITY UPDATE: incorrect function parsing
-    - debian/patches/CVE-2014-6271.diff: fix function parsing in
-      bash/builtins/common.h, bash/builtins/evalstring.c, bash/variables.c.
-    - CVE-2014-6271
+  * Non-maintainer upload by the Security Team.
+  * Add variables-affix.patch patch.
+    Apply patch from Florian Weimer to add prefix and suffix for environment
+    variable names which contain shell functions.
+  * Add parser-oob.patch patch.
+    Fixes two out-of-bound array accesses in the bash parser.
 
- -- Marc Deslauriers <marc.deslauriers@ubuntu.com>  Mon, 22 Sep 2014 15:31:07 -0400
+ -- Thijs Kinkhorst <thijs@debian.org>  Thu, 25 Sep 2014 21:27:16 +0000
 
-bash (4.2-2ubuntu2.1) precise-proposed; urgency=low
+bash (4.3-9.1) unstable; urgency=high
 
-  * Fix directory expansion. (LP: #778627)
+  * Non-maintainer upload by the security team
+  * Apply upstream patch bash43-025, fixing CVE-2014-6271.
 
- -- Alec Warner <antarus@google.com>  Mon, 18 Mar 2013 22:12:54 +0000
+ -- Florian Weimer <fw@deneb.enyo.de>  Wed, 24 Sep 2014 20:29:30 +0200
 
-bash (4.2-2ubuntu2) precise; urgency=low
+bash (4.3-9) unstable; urgency=medium
 
-  * Really apply upstream patches 021 - 024.
+  * Apply upstream patches 023 - 024, fixing the issues:
+    - bash does not correctly parse process substitution constructs that
+      contain unbalanced parentheses as part of the contained command.
+    - Indirect variable references do not work correctly if the reference
+      variable expands to an array reference using a subscript other than 0
+      (e.g., foo='bar[1]' ; echo ${!foo}).
+  * debian/skel.bashrc: Add GCC_COLORS setting (disabled by default).
 
- -- Matthias Klose <doko@ubuntu.com>  Tue, 03 Apr 2012 17:27:05 +0200
+ -- Matthias Klose <doko@debian.org>  Thu, 21 Aug 2014 22:58:16 +0200
 
-bash (4.2-2ubuntu1) precise; urgency=low
+bash (4.3-8) unstable; urgency=medium
 
-  * Merge with Debian; remaining changes:
+  * Apply upstream patches 012 - 022, fixing the issues:
+    - When a SIGCHLD trap runs a command containing a shell builtin while a
+      script is running `wait' to wait for all running children to complete,
+      the SIGCHLD trap will not be run once for each child that terminates.
+    - Using reverse-i-search when horizontal scrolling is enabled does not
+      redisplay the entire line containing the successful search results.
+    - Under certain circumstances, $@ is expanded incorrectly in contexts
+      where word splitting is not performed.
+    - When completing directory names, the directory name is dequoted twice.
+      This causes problems for directories with single and double quotes in
+      their names.
+    - An extended glob pattern containing a slash (`/') causes the globbing
+      code to misinterpret it as a directory separator.
+    - The code that creates local variables should not clear the `invisible'
+      attribute when returning an existing local variable.  Let the code that
+      actually assigns a value clear it.
+    - When assigning an array variable using the compound assignment syntax,
+      but using `declare' with the rhs of the compound assignment quoted, the
+      shell did not mark the variable as visible after successfully performing
+      the assignment.
+    - The -t timeout option to `read' does not work when the -e option is used.
+      LP: #1317476.
+    - When PS2 contains a command substitution, here-documents entered in an
+      interactive shell can sometimes cause a segmentation fault.
+    - When the readline `revert-all-at-newline' option is set, pressing newline
+      when the current line is one retrieved from history results in a double
+      free and a segmentation fault. Closes: #747341.
+    - Using nested pipelines within loops with the `lastpipe' option set can
+      result in a segmentation fault.
+  * Fix typo in package description. Closes: #707810.
 
- -- Matthias Klose <doko@ubuntu.com>  Mon, 02 Apr 2012 23:58:07 +0200
+ -- Matthias Klose <doko@debian.org>  Sun, 03 Aug 2014 18:14:31 +0200
+
+bash (4.3-7) unstable; urgency=medium
+
+  * Apply upstream patches 009 - 011 (replacing local patches):
+    - Fix a problem with unsigned sign extension when attempting to reallocate
+      the input line when it is fewer than 3 characters long and there has been
+      a history expansion.  The sign extension causes the shell to not
+      reallocate the line, which results in a segmentation fault when it writes
+      past the end.
+    - Change the behavior of programmable completion to compensate for two
+      assumptions made by the bash-completion package.
+    - The signal handling changes to bash and readline (to avoid running any
+      code in a signal handler context) cause the cursor to be placed on the
+      wrong line of a multi-line command after a ^C interrupts editing.
+
+ -- Matthias Klose <doko@debian.org>  Wed, 16 Apr 2014 23:10:28 +0200
+
+bash (4.3-6) unstable; urgency=medium
+
+  * Apply upstream patches 001 - 008:
+    - A missing check for a valid option prevented `test -R' from working.
+      There is another problem that causes bash to look up the wrong variable
+      name when processing the argument to `test -R'.
+    - A change to save state while running the DEBUG trap caused pipelines to
+      hang on systems which need process group synchronization while building
+      pipelines.
+    - When in callback mode, some readline commands can cause readline
+      to segfault by passing invalid contexts to callback functions.
+    - The `.' command in vi mode cannot undo multi-key commands beginning with
+      `c', `d', and `y' (command plus motion specifier).
+    - When in Posix mode, bash did not correctly interpret the ANSI-C-style
+      $'...' quoting mechanism when performing pattern substitution word
+      expansions within double quotes.
+    - A shell that started with job control active but was not interactive left
+      the terminal in the wrong process group when exiting, causing its parent
+      shell to get a stop signal when it attempted to read from the terminal.
+    - Using compound assignments for associative arrays like
+        assoc=( [x]= [y]=bar )
+      left the value corresponding to the key `x' NULL.  This caused
+      subsequent lookups to interpret it as unset.
+    - Some extended glob patterns incorrectly matched filenames with a leading
+      dot, regardless of the setting of the `dotglob' option.
+  * Replace already applied patches by the upstream patch files.
+
+ -- Matthias Klose <doko@debian.org>  Mon, 07 Apr 2014 22:20:10 +0200
+
+bash (4.3-5) unstable; urgency=medium
+
+  * Fix a display issue when a multiline command is aborted with ^C.
+  * Fix a crash after a failed history expansion. LP: #1294669.
+
+ -- Matthias Klose <doko@debian.org>  Sat, 29 Mar 2014 19:10:21 +0100
+
+bash (4.3-4) unstable; urgency=high
+
+  * Fix an issue with an associative array expanding to the
+    empty string if the associated value is the empty string.
+  * Fix an issue, when invoked as sh, bash doesn't interpret C-style escapes
+    within double-quoted substitution expansions ("${var/$'what'/ever}").
+  * Fix an issue with the extglob option to not expand hidden files.
+  * Update the pcomplete-dequote patch.
+
+ -- Matthias Klose <doko@debian.org>  Fri, 21 Mar 2014 15:20:45 +0100
+
+bash (4.3-3) unstable; urgency=medium
+
+  * Fix an issue with with empty completions and bash-completion.
+    Closes: #741060 . LP: #1291586.
+  * Fix an issue with updating terminal titles using trap commands.
+    LP: #1294167.
+  * Fix an issue in vi-mode, not re-doing the latest "dw", "dl", "D", ...
+    commands.
+  * Fix segfault in _rl_dispatch_callback(). Closes: #741555.
+
+ -- Matthias Klose <doko@debian.org>  Wed, 19 Mar 2014 18:54:13 +0100
+
+bash (4.3-2) unstable; urgency=medium
+
+  * Build-depend on texlive-fonts-recommended.
+  * Work around a build failure of bash static on ppc64el.
+  * Only include the documentation into the bash-doc package. Closes:
+
+ -- Matthias Klose <doko@debian.org>  Wed, 05 Mar 2014 05:05:16 +0100
+
+bash (4.3-1) unstable; urgency=medium
+
+  * Bash 4.3 release.
+  * Update debian/copyright.
+
+ -- Matthias Klose <doko@debian.org>  Mon, 03 Mar 2014 08:16:58 +0100
+
+bash (4.3~rc2-1) experimental; urgency=medium
+
+  * New upstream version 4.3 rc2.
+
+ -- Matthias Klose <doko@debian.org>  Wed, 05 Feb 2014 15:20:17 +0100
+
+bash (4.3~rc1-1) experimental; urgency=medium
+
+  * New upstream version 4.3 rc1.
+
+ -- Matthias Klose <doko@debian.org>  Fri, 27 Dec 2013 23:01:38 +0100
+
+bash (4.3~beta2-1) experimental; urgency=low
+
+  * New upstream version 4.3 beta2.
+
+ -- Matthias Klose <doko@debian.org>  Wed, 23 Oct 2013 13:59:32 +0200
+
+bash (4.2+dfsg-1) unstable; urgency=low
+
+  * Apply upstream patches 038 - 045, fixes for
+    - If a backslash-newline (which is removed) with no other input is given as
+      input to `read', the shell tries to dereference a null pointer and
+      segfaults.
+    - Under certain circumstances, bash attempts to expand variables in
+      arithmetic expressions even when evaluation is being suppressed.
+    - Output redirection applied to builtin commands missed I/O errors if
+      they happened when the file descriptor was closed, rather than on write
+      (e.g., like with an out-of-space error on a remote NFS file system).
+    - Process substitution incorrectly inherited a flag that inhibited using the
+      (local) temporary environment for variable lookups if it was providing
+      the filename to a redirection.  The intent the flag is to enforce the
+      Posix command expansion ordering rules.
+    - Compilation failed after specifying the  `--enable-minimal-config' option
+      to configure (more specifically, specifying `--disable-alias').
+    - When SIGCHLD is trapped, and a SIGCHLD trap handler runs when a pending
+      `read -t' invocation times out and generates SIGALRM, bash can crash with
+      a segmentation fault.
+    - When converting a multibyte string to a wide character string as part of
+      pattern matching, bash does not handle the end of the string correctly,
+      causing the search for the NUL to go beyond the end of the string and
+      reference random memory.  Depending on the contents of that memory, bash
+      can produce errors or crash.
+    - The <&n- and >&n- redirections, which move one file descriptor to another,
+      leave the file descriptor closed when applied to builtins or compound
+      commands.
+  * Fix parallel build (Steven Chamberlain). Closes: #694659.
+  * Fix german translations. Closes: #688571.
+  * Fix typo in man page. Closes: #696706.
+
+ -- Matthias Klose <doko@debian.org>  Sat, 30 Mar 2013 14:56:51 +0100
+
+bash (4.2+dfsg-0.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Remove unused and non DFSG-compliant bash-4.2/lib/readline/doc from
+    source. (Closes: #695709)
+
+ -- David Prévot <taffit@debian.org>  Sat, 29 Dec 2012 21:19:34 -0400
+
+bash (4.2-5.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * debian/bash.preinst-lib.c: typo in fcntl argument (Closes: #679198).
+
+ -- Nicolas Boulenguez <nicolas@debian.org>  Tue, 11 Dec 2012 22:02:44 +0100
+
+bash (4.2-5) unstable; urgency=low
+
+  * Apply upstream patch 037, fix for
+    - Attempting to redo (using `.') the vi editing mode `cc', `dd', or `yy'
+      commands leads to an infinite loop.
+
+ -- Matthias Klose <doko@debian.org>  Fri, 03 Aug 2012 01:21:14 +0200
+
+bash (4.2-4) unstable; urgency=high
+
+  * Apply upstream patches 030 - 036, fixes for
+    - When attempting to glob strings in a multibyte locale, and those strings
+      contain invalid multibyte characters that cause mbsnrtowcs to return 0,
+      the globbing code loops infinitely.
+    - A change between bash-4.1 and bash-4.2 to prevent the readline input hook
+      from being called too frequently had the side effect of causing delays
+      when reading pasted input on systems such as Mac OS X.  This patch fixes
+      those delays while retaining the bash-4.2 behavior.
+    - Bash-4.2 has problems with DEL characters in the expanded value of
+      variables used in the same quoted string as variables that expand
+      to nothing.
+    - Bash uses a static buffer when expanding the /dev/fd prefix for the test
+      and conditional commands, among other uses, when it should use a dynamic
+      buffer to avoid buffer overflow.
+    - In bash-4.2, the history code would inappropriately add a semicolon to
+      multi-line compound array assignments when adding them to the history.
+    - When given a number of lines to read, `mapfile -n lines' reads
+      one too many.
+    - Bash-4.2 produces incorrect word splitting results when expanding
+      double-quoted $@ in the same string as and adjacent to other variable
+      expansions.  The $@ should be split, the other expansions should not.
+
+ -- Matthias Klose <doko@debian.org>  Thu, 12 Jul 2012 23:58:51 +0200
+
+bash (4.2-3) unstable; urgency=low
+
+  * Apply upstream patches 025 - 029, fixes for
+    - When used in a shell function, `declare -g -a array=(compound assignment)'
+      creates a local variable instead of a global one.
+    - The `lastpipe' option does not behave correctly on machines where the
+      open file limit is less than 256.
+    - When the `extglob' shell option is enabled, pattern substitution does not
+      work correctly in the presence of multibyte characters.
+    - When using a word expansion for which the right hand side is evaluated,
+      certain expansions of quoted null strings include spurious ^? characters.
+    - Bash-4.2 tries to leave completed directory names as the user typed them,
+      without expanding them to a full pathname.  One effect of this is that
+      shell variables used in pathnames being completed (e.g., $HOME) are left
+      unchanged, but the `$' is quoted by readline because it is a special
+      character to the shell. This patch introduces two things:
+      - A new shell option, `direxpand', which, if set, attempts to emulate the
+        bash-4.1 behavior of expanding words to full pathnames during
+        completion;
+      - A set of heuristics that reduce the number of times special characters
+        such as `$' are quoted when the directory name is not expanded.
+  * Mark bash and bash-static as Multi-Arch: foreign . Closes: #674120.
+  * Avoid warning for unset debian_chroot with -u (Marko Mäkelä).
+    Closes: #659940.
+  * Fix string expansion: \u and \U for code points U+0080 to U+00FF (Darran
+    Salt). Closes: #661386.
+  * Search $- for `i' for the interactivity test. Closes: #482194.
+  * Search for bash_completion in /usr/share/bash-completion too.
+    Closes: #655071, #655208.
+
+ -- Matthias Klose <doko@debian.org>  Sun, 01 Jul 2012 13:45:35 +0200
 
 bash (4.2-2) unstable; urgency=low
 
@@ -76,34 +319,6 @@ bash (4.2-2) unstable; urgency=low
   * Apply upstream patches 021 - 024.
 
  -- Matthias Klose <doko@debian.org>  Fri, 30 Mar 2012 19:20:04 +0200
-
-bash (4.2-1ubuntu3) precise; urgency=low
-
-  * When cross-building, use the cross-strip, not the host strip.
-
- -- Steve Langasek <steve.langasek@ubuntu.com>  Fri, 30 Mar 2012 23:09:19 +0000
-
-bash (4.2-1ubuntu2) precise; urgency=low
-
-  * Build-depend on gettext:any instead of on gettext, so that apt-get can
-    properly resolve build-dependencies on the tool when cross-building.
-
- -- Steve Langasek <steve.langasek@ubuntu.com>  Thu, 29 Mar 2012 21:50:28 -0700
-
-bash (4.2-1ubuntu1) precise; urgency=low
-
-  * Merge with Debian; remaining changes:
-    - Build from the upstream sources, build the documentation in info format.
-    - skel.bashrc:
-      - Run lesspipe.
-      - Enable ls aliases.
-      - Set options in ll alias to -alF.
-      - Define an alert alias.
-      - Enabled colored grep aliases. 
-    - etc.bash.bashrc:
-      - Add sudo hint.
-
- -- Matthias Klose <doko@ubuntu.com>  Wed, 30 Nov 2011 11:30:24 +0100
 
 bash (4.2-1) unstable; urgency=low
 
@@ -166,41 +381,6 @@ bash (4.2-1) unstable; urgency=low
 
  -- Matthias Klose <doko@debian.org>  Wed, 30 Nov 2011 07:29:05 +0100
 
-bash (4.2-0ubuntu4) oneiric; urgency=low
-
-  * Apply upstream patches:
-    - 009: Fix segfault running `fc -l' two times in succession.
-    - 010: Correctly print/reproduce here documents attached to commands
-      inside compound commands.
-  * Fix parsing of double doublequotes. LP: #780441.
-  * /etc/bash.bashrc:
-    - Fix quoting issue calling command-not-found. LP: #754859. Closes: #587185.
-    - For .hushlogin file for sudo hint. LP: #672496.
-  * Don't cache the value of brk between sbrk calls (Samuel Thibault).
-    Closes: #614815.
-
- -- Matthias Klose <doko@ubuntu.com>  Wed, 18 May 2011 10:56:41 +0200
-
-bash (4.2-0ubuntu3) natty; urgency=low
-
-  * Apply upstream patches 007 - 008.
-
- -- Matthias Klose <doko@ubuntu.com>  Thu, 31 Mar 2011 17:59:39 +0200
-
-bash (4.2-0ubuntu2) natty; urgency=high
-
-  * Apply upstream patches 001 - 006.
-  * Fix bug in case evaluation handling (Chet Ramey). LP: #728748.
-  * Work around build failure in bash-static on amd64.
-
- -- Matthias Klose <doko@ubuntu.com>  Fri, 04 Mar 2011 00:16:53 +0100
-
-bash (4.2-0ubuntu1) natty; urgency=low
-
-  * Bash 4.2 release.
-
- -- Matthias Klose <doko@ubuntu.com>  Thu, 24 Feb 2011 01:25:40 +0100
-
 bash (4.1-3) unstable; urgency=low
 
   * Apply upstream patches 003, 004, 005.
@@ -215,90 +395,11 @@ bash (4.1-3) unstable; urgency=low
 
  -- Matthias Klose <doko@debian.org>  Sat, 10 Apr 2010 10:35:29 +0200
 
-bash (4.1-2ubuntu5) natty; urgency=low
-
-  * No-change upload to reduce changelogs.
-
- -- Martin Pitt <martin.pitt@ubuntu.com>  Mon, 13 Dec 2010 12:46:59 +0100
-
-bash (4.1-2ubuntu4) maverick; urgency=low
-
-  * debian/skel.bashrc: add 'alert' alias, LP: #616028
-
- -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 10 Aug 2010 15:35:08 -0400
-
-bash (4.1-2ubuntu3) lucid; urgency=low
-
-  * Rebuild statically linked bash-static binary against recent libc.
-
- -- Matthias Klose <doko@ubuntu.com>  Sun, 18 Apr 2010 23:59:44 +0200
-
-bash (4.1-2ubuntu2) lucid; urgency=low
-
-  * Apply upstream patches 003, 004, 005.
-    - Fix crash with command completion on a word with a quoted globbing
-      character.
-    - Fix executing a shell function in Posix mode without local
-      variables, bash will not propagate a variable in a special builtin's
-      temporary	environment to have global scope.
-    - Fix the `read' builtin times out after the timeout specified with -t
-      is exceeded, it does not reset the flags that tell signal handlers to
-      process signals immediately instead of deferring their handling.
-  * Fix crash in declare builtin. LP: #556101.
-  * README.Debian:
-    - Remove references to bash-minimal.
-    - Mention that the upstream changelog can be found in the bash-doc
-      package.
-
- -- Matthias Klose <doko@ubuntu.com>  Sat, 10 Apr 2010 12:56:48 +0200
-
-bash (4.1-2ubuntu1) lucid; urgency=low
-
-  [ Dustin Kirkland ]
-  * Merge from debian testing.  Remaining changes:
-    - Build from the upstream sources, build the documentation in info format.
-    - /etc/bash.bashrc:
-      + add sudo hint
-      + allow special characters
-      + add ll, la, l aliases
-    - /etc/skel/.bashrc:
-      + don't set HISTCONTROL twice
-      + set HISTSIZE to a reasonable 2000
-      + eval lesspipe
-      + enable colored grep
-      + add ll, la, l aliases
-  * New bug fix, LP: #545262
-    - /etc/skel/.bashrc: Uncomment useful aliases for ll, la, and l,
-      to better match sysadmin's expectations coming from other
-      enterprise distros
-
-  [ Matthias Klose ]
-  * Set HISTFILESIZE to 2000 in the skeleton bashrc. LP: #544542.
-
- -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 23 Mar 2010 11:56:51 -0700
-
 bash (4.1-2) unstable; urgency=low
 
   * Apply upstream patches 001, 002.
 
  -- Matthias Klose <doko@debian.org>  Fri, 12 Mar 2010 02:08:45 +0100
-
-bash (4.1-1ubuntu2) lucid; urgency=low
-
-  * Allow special characters in home path in /etc/bash.bashrc
-    (LP: #330664)
-  * skel.bashrc: Don't set HISTCONTROL twice
-    (LP: #465500)
-
- -- Bryce Harrington <bryce@ubuntu.com>  Wed, 10 Feb 2010 23:10:50 -0800
-
-bash (4.1-1ubuntu1) lucid; urgency=low
-
-  * Merge with Debian; remaining changes:
-    - Build from the upstream sources, build the documentation in info format.
-    - /etc/skel/.bashrc: eval lesspipe.
-
- -- Matthias Klose <doko@ubuntu.com>  Mon, 04 Jan 2010 19:10:28 +0100
 
 bash (4.1-1) unstable; urgency=low
 
@@ -328,20 +429,6 @@ bash (4.0-6) unstable; urgency=medium
 
  -- Matthias Klose <doko@debian.org>  Sun, 13 Sep 2009 13:35:38 +0200
 
-bash (4.0-5ubuntu2) karmic; urgency=low
-
-  * Still ship the sh and sh(1) symlinks. LP: #429048.
-
- -- Matthias Klose <doko@ubuntu.com>  Mon, 14 Sep 2009 06:51:00 +0200
-
-bash (4.0-5ubuntu1) karmic; urgency=low
-
-  * Merge with Debian; remaining changes:
-    - Build from the upstream sources, build the documentation in info format.
-    - /etc/skel/.bashrc: eval lesspipe.
-
- -- Matthias Klose <doko@ubuntu.com>  Sun, 13 Sep 2009 13:22:17 +0200
-
 bash (4.0-5) unstable; urgency=low
 
   * Re-add dependency on dash, lost with the upload of 4.0.
@@ -351,28 +438,6 @@ bash (4.0-5) unstable; urgency=low
   * Apply upstream patches 029 - 033.
 
  -- Matthias Klose <doko@debian.org>  Sun, 13 Sep 2009 12:55:54 +0200
-
-bash (4.0-4ubuntu2) karmic; urgency=low
-
-  * Changes to the skeleton .bashrc:
-    - Source ~/.bash_aliases by default. LP: #408329.
-
- -- Matthias Klose <doko@ubuntu.com>  Mon, 24 Aug 2009 13:59:12 +0200
-
-bash (4.0-4ubuntu1) karmic; urgency=low
-
-  * Merge with Debian; remaining changes:
-    - Build from the upstream sources, build the documentation in info format.
-    - /etc/skel/.bashrc: eval lesspipe.
-  * Changes to the skeleton .bashrc:
-    - Source .bash_aliases after defining aliases. LP: #400686.
-    - Enable color support for grep. LP: #386502.
-  * The bash docs now  describe uname -s not having any effect on many
-    systems. LP: #378595.
-  * Don't ship an info dir file. LP: #358932.
-  * Fix some lintian warnings.
-
- -- Matthias Klose <doko@ubuntu.com>  Mon, 24 Aug 2009 12:06:59 +0200
 
 bash (4.0-4) unstable; urgency=low
 
@@ -409,14 +474,6 @@ bash (4.0-2) experimental; urgency=low
 
  -- Matthias Klose <doko@debian.org>  Sat, 21 Mar 2009 15:06:46 +0100
 
-bash (4.0-1ubuntu1) jaunty; urgency=low
-
-  * Merge with Debian; remaining changes:
-    - Build from the upstream sources, build the documentation in info format.
-    - /etc/skel/.bashrc: eval lesspipe.
-
- -- Matthias Klose <doko@ubuntu.com>  Sun, 01 Mar 2009 11:00:00 +0100
-
 bash (4.0-1) experimental; urgency=low
 
   * New upstream version 4.0.
@@ -435,31 +492,11 @@ bash (3.2-6) unstable; urgency=medium
 
  -- Matthias Klose <doko@debian.org>  Mon, 20 Jul 2009 23:56:24 +0000
 
-bash (3.2-5ubuntu1) jaunty; urgency=low
-
-  * Merge with Debian; remaining changes:
-
- -- Matthias Klose <doko@ubuntu.com>  Sun, 01 Mar 2009 10:40:20 +0100
-
-bash (3.2-6) unstable; urgency=medium
-
-  * bash. Depend on dash to install dash as a required package.
-
- -- Matthias Klose <doko@debian.org>  Mon, 20 Jul 2009 23:56:24 +0000
-
 bash (3.2-5) unstable; urgency=low
 
   * Apply upstream fixes 040 - 048.
 
  -- Matthias Klose <doko@debian.org>  Sun, 01 Mar 2009 10:20:52 +0100
-
-bash (3.2-4ubuntu1) intrepid; urgency=low
-
-  * Merge with Debian; remaining changes:
-    - Build from the upstream sources, build the documentation in info format.
-    - /etc/skel/.bashrc: eval lesspipe.
-
- -- Matthias Klose <doko@ubuntu.com>  Mon, 12 May 2008 18:53:01 +0200
 
 bash (3.2-4) unstable; urgency=low
 
@@ -467,14 +504,6 @@ bash (3.2-4) unstable; urgency=low
   * Only call remove-shell on package removal or purge.
 
  -- Matthias Klose <doko@debian.org>  Mon, 12 May 2008 18:49:07 +0200
-
-bash (3.2-3ubuntu1) intrepid; urgency=low
-
-  * Merge with Debian; remaining changes:
-    - Build from the upstream sources, build the documentation in info format.
-    - /etc/skel/.bashrc: eval lesspipe.
-
- -- Matthias Klose <doko@ubuntu.com>  Sun, 11 May 2008 08:32:22 +0000
 
 bash (3.2-3) unstable; urgency=low
 
@@ -484,13 +513,6 @@ bash (3.2-3) unstable; urgency=low
   * Add explicit copyright notice to clear_console(1).
 
  -- Matthias Klose <doko@debian.org>  Sun, 20 Apr 2008 13:31:10 +0200
-
-bash (3.2-2ubuntu1) intrepid; urgency=low
-
-  * Merge with Debian; remaining changes:
-    - Build from the upstream sources, build the documentation in info format.
-
- -- Matthias Klose <doko@ubuntu.com>  Wed, 07 May 2008 11:31:40 +0200
 
 bash (3.2-2) unstable; urgency=low
 
@@ -558,235 +580,6 @@ bash (3.2-1) experimental; urgency=low
 
  -- Matthias Klose <doko@debian.org>  Sun, 10 Feb 2008 23:49:35 +0100
 
-bash (3.2-0ubuntu17) hardy-proposed; urgency=low
-
-  * /etc/skel/.bashrc: Fix typo, forcing a colored prompt. LP: #223256.
-  * Add missing md5sum for feisty and gutsy /etc/skel/.bash_profile,
-    so it is removed on upgrade to hardy if unmodified. LP: #211406.
-  * Apply upstream patches 034 - 039, applying fixes for:
-    - The bash getcwd replacement will write past the end of allocated memory
-      when it allocates the buffer itself if it uses the buffer size passed
-      as an argument, and that size is less than the length of the pathname.
-    - Bash incorrectly puts the second and subsequent children spawned by a
-      shell forked to run a command substitution in the wrong process group.
-    - When initializing a subshell, bash did not reset a sentinel keeping
-      track of the number of command substitutions, leading to an infinite
-      loop if an error was encountered in the subshell.
-    - Bash inappropriately evaluates command substitutions while expanding
-      directory names as part of command substitution.
-    - When reading input lines into a single variable using the `read' builtin,
-      bash did not free the memory it read after assigining it to the named
-      variable, causing a memory leak noticable when reading large amounts of
-      data.
-    - Replace shell-compat patches with upstream patch 039 (compat31).
-  * Reenable running the testsuite during the build.
-  * Only call add-shell on new installations; guard remove-shell in post
-    removal.
-
- -- Matthias Klose <doko@ubuntu.com>  Wed, 07 May 2008 09:56:53 +0200
-
-bash (3.2-0ubuntu16) hardy; urgency=low
-
-  * Remove /etc/skel/.bash_profile, if it is unmodified; if modified and
-    /etc/skel/.profile is unmodifed, move .bash_profile to .profile.
-    LP: #211406.
-  * /etc/skel/.bashrc: Add an option to blurt a terminal window with a
-    colored prompt. LP: #103929.
-  * /etc/skel/.bashrc: Add color support for grep and friends (commented out 
-    by default). LP: #144632.
-  * /etc/skel/.profile: Avoid the use of `~'. LP: #200283.
-  * Add a shopt option compat31 to falls back to the behaviour of bash-3.1 
-    and earlier versions, in that quoting the string argument to the [[ 
-    command's =~ +operator does not force string matching. LP: #110407.
-
- -- Matthias Klose <doko@ubuntu.com>  Tue, 15 Apr 2008 01:24:06 +0200
-
-bash (3.2-0ubuntu15) hardy; urgency=low
-
-  * Don't run command-not-found from the shell scripts when it has been
-    removed in the meantime (LP: #194939)
-
- -- Kjell Braden <fnord@pentabarf.de>  Sun, 24 Feb 2008 12:01:31 +0100
-
-bash (3.2-0ubuntu14) hardy; urgency=low
-
-  * Build-depend on sharutils ... but save the control file before uploading.
-
- -- Matthias Klose <doko@ubuntu.com>  Sat, 09 Feb 2008 03:10:16 +0100
-
-bash (3.2-0ubuntu13) hardy; urgency=low
-
-  * Build-depend on sharutils.
-
- -- Matthias Klose <doko@ubuntu.com>  Sat, 09 Feb 2008 00:19:37 +0000
-
-bash (3.2-0ubuntu12) hardy; urgency=low
-
-  * Apply upstream patches 026 - 033. Fixes for:
-    - Keep the Apple linker from attempting to link bash against Apple's
-      readline library "replacement" rather than the one shipped with bash.
-    - When updating the display after displaying, for instance, a list
-      of possible completions, readline will place the cursor at the wrong
-      position if the prompt contains invisible characters and a newline.
-      LP: #119938.
-    - Under some circumstances, readline will incorrectly display a prompt
-      string containing invisible characters after the final newline.
-    - When the bash arithmetic expression evaluator has temporarily turned off
-      evalation, such as when parsing a pre- or post-decrement or -increment
-      operator, and an error occurs, evaluation is not re-enabled.
-    - If redirections attached to a compound command fail, bash does not set
-      the command's exit status correctly.  This only happens when the command
-      is the first in a sequential list.
-    - In certain cases when outputting characters at the end of the line, e.g.,
-      when displaying the prompt string, readline positions the cursor
-      incorrectly if the prompt string contains invisible characters and the
-      text being drawn begins before the last invisible character in the line.
-    - There is an off-by-one error in the code that buffers characters
-      received very quickly in succession, causing characters to be dropped.
-    - References made within a function to an uninitialized local array
-      variable using the [*] subscript in a double-quoted string  can result
-      in spurious ASCII 127 characters in the expanded value.
-  * Remove bash-completion from the source.
-  * Remove the conflict with bash-completion, recommend bash-completion.
-  * debian/skel.bashrc: Check for dircolors before using it. LP: #121992.
-  * Include correct bash.pot file. LP: #104261.
-
- -- Matthias Klose <doko@ubuntu.com>  Fri, 08 Feb 2008 19:26:17 +0100
-
-bash (3.2-0ubuntu11) gutsy; urgency=low
-
-  * Move CWRU/changelog from the bash to the bash-doc package (we already
-    have the CHANGES files).
-  * Support safe-upgrade and full-upgrade in aptitude auto completion.
-    (Benjamin Rubin). LP: #128575.
-
-  [ Daniel Hahler]
-  * Apply upstream patches 018 - 025 (LP: #147946), fixes for:
-    - 018: Fix losing saved status of a background job and fix
-      infinite loop after creating and waiting for 4096 jobs.
-    - 019: Properly report error status when rl_read_key returns -1,
-      fixes cause of input loops.
-    - 020: Fix state consistency in some cases of error processing,
-      when jumping back to the top-level processing loop from
-      a builtin command.
-    - 021: When the parser read a backslash-escaped character that would
-      be treated internally as an escape, it would double the number
-      of escape characters.
-    - 022: POSIX specifies that the `read' builtin invoked from an interative
-      shell must prompt with $PS2 when a line is continued using a backslash
-      while reading from a terminal.
-    - 023: When an error occurs during the pattern removal word expansion,
-      the shell can free unallocated memory or free memory multiple times.
-    - 024: Fix calculation of screen position when performing a redisplay in
-      which the new text uses more space, but fewer bytes.
-    - 025: Fix dropping each 511th character of buffered input, e.g. when
-      pasting a large amount of data.
-
- -- Matthias Klose <doko@ubuntu.com>  Fri, 05 Oct 2007 15:31:40 +0200
-
-bash (3.2-0ubuntu10) gutsy; urgency=low
-
-  * Trigger rebuild for hppa
-
- -- LaMont Jones <lamont@ubuntu.com>  Fri, 28 Sep 2007 10:34:31 -0600
-
-bash (3.2-0ubuntu9) gutsy; urgency=low
-
-  * debian/etc.bash.bashrc:
-    - updated for new location of command-not-found
-    - fix parsing of commands that look like arguments (LP: #124301)
-
- -- Michael Vogt <michael.vogt@ubuntu.com>  Mon, 27 Aug 2007 08:53:07 +0200
-
-bash (3.2-0ubuntu8) gutsy; urgency=low
-
-  * Apply upstream patch 014 - 017, fixes for:
-    - Mishandling word splitting under certain circumstances when IFS is
-      null (IFS=).
-    - Fix unlinking FIFOs under certain circumstances, when using FIFOs
-      for process substitution.
-    - Fixes for displaying long prompts.
-  * textex -> texlive transition.
-
- -- Matthias Klose <doko@ubuntu.com>  Thu, 17 May 2007 11:39:42 +0200
-
-bash (3.2-0ubuntu7) feisty; urgency=low
-
-  * Apply upstream patch 011 - 013, fixes for:
-    - 011: Under certain circumstances (loopback mounts), the bash getcwd does
-      not return correct results.  This patch allows the use of the Solaris
-      libc getcwd even though it doesn't dynamically allocate memory.
-    - 012: Some systems (AIX 4.x) don't implement the PRI_xxx macros correctly,
-      causing syntax errors when attempting to compile bash on those systems.
-      This patch adds support for the PRI_MACROS_BROKEN define.
-    - 013: Readline neglects to reallocate the array it uses to keep track
-      of wrapped screen lines when increasing its size.  This will eventually
-      result in segmentation faults when given sufficiently long input.
-
- -- Matthias Klose <doko@ubuntu.com>  Fri,  6 Apr 2007 15:34:09 +0200
-
-bash (3.2-0ubuntu6) feisty; urgency=low
-
-  * Apply upstream patch 010.
-    The glibc implementation of regcomp/regexec does not allow backslashes to
-    escape "ordinary" pattern characters when matching.  Bash used backslashes
-    to quote all characters when the pattern argument to the [[ special
-    command's =~ operator was quoted.  This caused the match to fail on Linux
-    and other systems using GNU libc.
-
- -- Matthias Klose <doko@ubuntu.com>  Tue,  6 Mar 2007 03:59:49 +0100
-
-bash (3.2-0ubuntu5) feisty; urgency=low
-
-  * Install /etc/skel/.profile, instead of /etc/skel/.bash_profile.
-    Users will find a ~/.profile instead of ~/.bash_profile; ~/.profile
-    is not read by a bash login shell, if ~/.bash_profile still exists.
-  * Fix one more crash in clear_console. Ubuntu #87402.
-
- -- Matthias Klose <doko@ubuntu.com>  Sat,  3 Mar 2007 14:06:07 +0100
-
-bash (3.2-0ubuntu4) feisty; urgency=low
-
-  * Fix crash in clear_console. Ubuntu #85165.
-  * Fix scp command completion. Ubuntu #82849.
-  * Set Ubuntu maintainer address.
-
- -- Matthias Klose <doko@ubuntu.com>  Wed, 21 Feb 2007 15:38:51 +0100
-
-bash (3.2-0ubuntu3) feisty; urgency=low
-
-  * debian/rules: Adjust to changed brace expansion in 3.2.
-
- -- Matthias Klose <doko@ubuntu.com>  Mon,  8 Jan 2007 16:29:27 +0000
-
-bash (3.2-0ubuntu2) feisty; urgency=low
-
-  * Apply upstream patches 006 - 009.
-
- -- Matthias Klose <doko@ubuntu.com>  Mon,  8 Jan 2007 11:07:45 +0000
-
-bash (3.2-0ubuntu1) feisty; urgency=low
-
-  * New upstream version.
-    - Remove rl-inputrc.dpatch, applied upstream.
-    - Remove ulimit.dpatch, ulimit-doc.dpatch, read-memleak, login-shell,
-      man-typos, applied upstream.
-  * Bugs fixed upstream:
-    - Traps overwrite job names. Ubuntu #41082.
-  * Apply upstream patches 001 - 005.
-  * Set HISTCONTROL to ignoreboth. Ubuntu #66539.
-  * Fix comment about umask setting in /etc/skel/.bash_profile. Ubuntu #71294.
-  * bash-completion:
-    - Fix typo in pkg-config completion. Ubuntu #58054.
-    - Add completion for apt-get autoremove. Ubuntu #60666.
-    - Add kaffeine completion for srt files. Ubuntu #64274.
-  * Merge with Debian unstable; remaining changes:
-    - Source package built using the unmodified upstream tarball.
-    - Build the bash-doc package including the texinfo docs.
-    - Skeleton scripts.
-
- -- Matthias Klose <doko@ubuntu.com>  Mon,  4 Dec 2006 10:01:04 +0000
-
 bash (3.1dfsg-9) unstable; urgency=low
 
   * Remove bash-completion from the source.
@@ -817,30 +610,6 @@ bash (3.1dfsg-6) unstable; urgency=low
   * Remove the FAQ from the package.
 
  -- Matthias Klose <doko@debian.org>  Thu, 12 Oct 2006 22:35:46 +0200
-
-bash (3.1-5ubuntu3) edgy; urgency=low
-
-  * debian/bash_completion/bash_completion:
-    - added new apt autoremove option
-  * debian/etc.bash.bashrc:
-    - if the command-not-found package is installed, use it
-
- -- Michael Vogt <michael.vogt@ubuntu.com>  Tue, 19 Sep 2006 21:56:57 +0200
-
-bash (3.1-5ubuntu2) edgy; urgency=low
-
-  * debian/patches/command-not-found-bashrc.diff:
-    - support the command-not-found package (if installed) 
-      out-of-the-box (command-not-found-magic spec)
-
- -- Michael Vogt <michael.vogt@ubuntu.com>  Mon, 28 Aug 2006 20:22:52 +0200
-
-bash (3.1-5ubuntu1) edgy; urgency=low
-
-  * Resynchronize with Debian unstable.
-    - Remaining change: bashrc sudo hint.
-
- -- Matthias Klose <doko@ubuntu.com>  Wed,  5 Jul 2006 13:11:22 +0000
 
 bash (3.1-5) unstable; urgency=low
 
@@ -2556,4 +2325,3 @@ bash (1.14.7-1) frozen unstable; urgency=low
   * default unreadable .bash_history in /etc/skel (fixes 1549).
 
  -- Guy Maor <maor@ece.utexas.edu>  Sat, 9 Nov 1996 05:07:31 -0600
-
