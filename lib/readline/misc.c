@@ -1,6 +1,6 @@
 /* misc.c -- miscellaneous bindable readline functions. */
 
-/* Copyright (C) 1987-2012 Free Software Foundation, Inc.
+/* Copyright (C) 1987-2015 Free Software Foundation, Inc.
 
    This file is part of the GNU Readline Library (Readline), a library
    for reading lines of text with interactive input and history editing.      
@@ -55,8 +55,6 @@
 
 static int rl_digit_loop PARAMS((void));
 static void _rl_history_set_point PARAMS((void));
-
-extern int history_offset;
 
 /* Forward declarations used in this file */
 void _rl_free_history_entry PARAMS((HIST_ENTRY *));
@@ -128,7 +126,7 @@ _rl_arg_dispatch (cxt, c)
 
   /* If we see a key bound to `universal-argument' after seeing digits,
       it ends the argument but is otherwise ignored. */
-  if (_rl_keymap[c].type == ISFUNC && _rl_keymap[c].function == rl_universal_argument)
+  if (c >= 0 && _rl_keymap[c].type == ISFUNC && _rl_keymap[c].function == rl_universal_argument)
     {
       if ((cxt & NUM_SAWDIGITS) == 0)
 	{
@@ -268,6 +266,8 @@ _rl_arg_callback (cxt)
   int c, r;
 
   c = _rl_arg_getchar ();
+  if (c < 0)
+    return (1);		/* EOF */
 
   if (_rl_argcxt & NUM_READONE)
     {
@@ -461,6 +461,7 @@ _rl_revert_all_lines ()
 	    saved_undo_list = 0;
 	  /* Set up rl_line_buffer and other variables from history entry */
 	  rl_replace_from_history (entry, 0);	/* entry->line is now current */
+	  entry->data = 0;			/* entry->data is now current undo list */
 	  /* Undo all changes to this history entry */
 	  while (rl_undo_list)
 	    rl_do_undo ();
@@ -468,7 +469,6 @@ _rl_revert_all_lines ()
 	     the timestamp. */
 	  FREE (entry->line);
 	  entry->line = savestring (rl_line_buffer);
-	  entry->data = 0;
 	}
       entry = previous_history ();
     }

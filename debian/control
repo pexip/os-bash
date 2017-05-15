@@ -2,9 +2,10 @@ Source: bash
 Section: base
 Priority: required
 Maintainer: Matthias Klose <doko@debian.org>
-Standards-Version: 3.9.6
+Standards-Version: 3.9.8
 Build-Depends: autoconf, autotools-dev, bison, libncurses5-dev,
- texinfo, texi2html, debhelper (>= 5), locales, gettext, sharutils, time,
+ texinfo, texi2html, debhelper (>= 9), gettext, sharutils,
+ locales <!nocheck>, time <!nocheck>,
  xz-utils, dpkg-dev (>= 1.16.1)
 Build-Depends-Indep: texlive-latex-base, ghostscript, texlive-fonts-recommended
 Homepage: http://tiswww.case.edu/php/chet/bash/bashtop.html
@@ -41,6 +42,7 @@ Depends: passwd (>= 1:4.0.3-10), ${misc:Depends}
 Suggests: bash-doc
 Section: shells
 Priority: optional
+Built-Using: ${glibc:Source}
 Description: GNU Bourne Again SHell (static version)
  Bash is an sh-compatible command language interpreter that executes
  commands read from the standard input or from a file.  Bash also
