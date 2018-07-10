@@ -1,17 +1,92 @@
+bash (4.4-5) unstable; urgency=medium
+
+  * Apply upstream patch 012.
+
+ -- Matthias Klose <doko@debian.org>  Mon, 15 May 2017 12:45:32 -0700
+
+bash (4.4-4) unstable; urgency=medium
+
+  * Apply upstream patches 008 - 011.
+
+ -- Matthias Klose <doko@debian.org>  Tue, 24 Jan 2017 16:13:37 +0100
+
+bash (4.4-3) unstable; urgency=medium
+
+  * Apply upstream patches 006 - 007.
+  * clear_console: Securely erase the current console. Closes: #845177.
+  * Mark locales and time build dependencies with <!nocheck>.
+    Closes: #838201.
+  * Don't configure with --with-curses. Closes: #794588.
+
+ -- Matthias Klose <doko@debian.org>  Fri, 20 Jan 2017 11:52:59 +0100
+
+bash (4.4-2) unstable; urgency=medium
+
+  * Apply upstream patches 001 - 005.
+    - Closes: #844299, LP: #1641832.
+  * Don't build with PIE. Closes: #842037.
+
+ -- Matthias Klose <doko@debian.org>  Tue, 15 Nov 2016 19:49:00 +0100
+
+bash (4.4-1) unstable; urgency=medium
+
+  * Bash 4.4 release.
+
+ -- Matthias Klose <doko@debian.org>  Sat, 17 Sep 2016 13:31:34 +0200
+
+bash (4.4~rc2-1) experimental; urgency=medium
+
+  * Bash 4.4 release candidate 2.
+
+ -- Matthias Klose <doko@debian.org>  Mon, 29 Aug 2016 09:53:08 +0200
+
+bash (4.4~rc1+b2-1) experimental; urgency=medium
+
+  * New upstream tarball, called "4.4 beta2".
+
+ -- Matthias Klose <doko@debian.org>  Mon, 25 Jul 2016 20:35:44 +0200
+
+bash (4.4~rc1-1) experimental; urgency=medium
+
+  * Bash 4.4 release candidate 1.
+
+ -- Matthias Klose <doko@debian.org>  Sun, 13 Mar 2016 21:36:22 +0100
+
+bash (4.4~beta-1) experimental; urgency=medium
+
+  * Bash 4.4 beta release.
+
+ -- Matthias Klose <doko@debian.org>  Fri, 08 Jan 2016 07:53:07 +0100
+
+bash (4.3-14) unstable; urgency=medium
+
+  * Apply upstream patches 040 - 042.
+
+ -- Matthias Klose <doko@debian.org>  Tue, 01 Sep 2015 01:04:38 +0200
+
+bash (4.3-13) unstable; urgency=medium
+
+  * Apply upstream patches 034 - 039.
+  * Disallow setuid scripts if not called as `sh' and not called with
+    the -p option. Closes: #720545, #734866.
+
+ -- Matthias Klose <doko@debian.org>  Sun, 26 Jul 2015 14:53:19 +0200
+
+bash (4.3-12) unstable; urgency=medium
+
+  * Apply upstream patches 031 - 033.
+  * Add a Built-Using attribute for bash-static. Closes: #769342.
+  * Move definition of the macro "FN" out of the region of the "ig"
+    macro.  Define macros and registers "zZ" and "zY". Closes: #774597.
+  * Also set color prompt for *-256color terminals. Closes: #766443.
+
+ -- Matthias Klose <doko@debian.org>  Wed, 28 Jan 2015 17:05:00 +0100
+
 bash (4.3-11+deb8u1pexip1) pexip; urgency=low
 
   * Migrate to Jessie
 
  -- John-Mark Bell <jmb@pexip.com>  Mon, 20 Feb 2017 19:10:37 +0000
-
-bash (4.3-11+deb8u1) jessie; urgency=medium
-
-  * Non-maintainer upload.
-  * CVE-2016-0634: Arbitrary code execution via malicious hostname
-  * CVE-2016-7543: Specially crafted SHELLOPTS+PS4 variables allows command
-    substitution
-
- -- Salvatore Bonaccorso <carnil@debian.org>  Sun, 09 Oct 2016 17:35:21 +0200
 
 bash (4.3-11) unstable; urgency=medium
 
