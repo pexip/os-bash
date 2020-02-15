@@ -12,7 +12,7 @@ Build-Depends-Indep: texlive-latex-base, ghostscript, texlive-fonts-recommended
 Homepage: http://tiswww.case.edu/php/chet/bash/bashtop.html
 Vcs-Browser: https://code.launchpad.net/~doko/+junk/pkg-bash-debian
 Vcs-Bzr: http://bazaar.launchpad.net/~doko/+junk/pkg-bash-debian
-XS-Pexip-Upstream: http://ftp.debian.org/debian/ stretch
+XS-Pexip-Upstream: http://ftp.debian.org/debian/ buster
 
 Package: bash
 Architecture: any
