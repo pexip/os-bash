@@ -31,6 +31,8 @@ else
 endif
 
 ifneq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
+  STRIP = :
+else
   ifneq ($(DEB_HOST_GNU_TYPE),$(DEB_BUILD_GNU_TYPE))
     STRIP = $(DEB_HOST_GNU_TYPE)-strip
   else
@@ -39,7 +41,7 @@ ifneq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
 endif
 
 
-dpkg_buildflags = DEB_CFLAGS_MAINT_APPEND="-Wall -no-pie" dpkg-buildflags
+dpkg_buildflags = DEB_CFLAGS_MAINT_APPEND="-Wall" dpkg-buildflags
 CFLAGS := $(shell $(dpkg_buildflags) --get CFLAGS)
 CPPFLAGS := $(shell $(dpkg_buildflags) --get CPPFLAGS)
 LDFLAGS := $(shell $(dpkg_buildflags) --get LDFLAGS)
@@ -73,7 +75,8 @@ conf_args = \
 	--enable-largefile \
 	--prefix=/usr \
 	--infodir=/usr/share/info \
-	--mandir=/usr/share/man
+	--mandir=/usr/share/man \
+	--without-bash-malloc
 ifeq ($(with_installed_rl),yes)
     conf_args += --with-installed-readline
 endif
@@ -85,7 +88,6 @@ endif
 
 static_conf_args := $(conf_args) \
 	--enable-static-link \
-	--without-bash-malloc \
 
 #build: bash-build static-build preinst-build check
 build: before-build bash-build static-build preinst-build check
@@ -93,6 +95,9 @@ build-arch: build
 build-indep: build
 
 before-build:
+	dh_testdir
+#	dh_update_autotools_config
+	dh_autotools-dev_updateconfig
 	mkdir -p stamps
 	: # see #327477, needed to have HAVE_DEV_STDIN defined
 	(test -d /dev/fd && test -r /dev/stdin < /dev/null) \
@@ -135,7 +140,7 @@ static-configure:
 bash-doc-build: stamps/stamp-build-bash-doc
 stamps/stamp-build-bash-doc:
 	rm -f bash/doc/bashref.info
-	$(MAKE) -C build-bash/doc info html
+	$(MAKE) -C build-bash/doc info html MAN2HTML=/usr/bin/man2html
 	$(MAKE) -C build-bash/doc bash.pdf bashref.pdf
 	touch stamps/stamp-build-bash-doc
 
@@ -166,6 +171,7 @@ clean:
 	rm -f debian/README.Debian
 	rm -rf locales
 	rm -f clear_console
+	dh_autotools-dev_restoreconfig
 	dh_clean
 
 preinst-build: debian/bash.preinst
