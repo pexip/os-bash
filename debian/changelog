@@ -1,3 +1,9 @@
+bash (5.0-4pexip1) pexip; urgency=medium
+
+  * Migrate to Buster
+
+ -- Vincent Sanders <vince@pexip.com>  Thu, 27 Feb 2020 22:11:00 +0000
+
 bash (5.0-4) unstable; urgency=medium
 
   * wait builtin: avoid hanging on inherited children. Closes: #920455.
