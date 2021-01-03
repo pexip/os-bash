@@ -1,3 +1,74 @@
+bash (5.1-2) unstable; urgency=medium
+
+  * Apply upstream patches 001 - 004.
+
+ -- Matthias Klose <doko@debian.org>  Sun, 03 Jan 2021 10:44:50 +0100
+
+bash (5.1-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Bump standards version.
+
+ -- Matthias Klose <doko@debian.org>  Tue, 08 Dec 2020 08:03:28 +0100
+
+bash (5.1~rc3-1) unstable; urgency=medium
+
+  * New upstream release candidate 3.
+
+ -- Matthias Klose <doko@debian.org>  Sun, 22 Nov 2020 16:24:54 +0100
+
+bash (5.1~rc2-1) unstable; urgency=medium
+
+  * New upstream release candidate 2.
+    - Fix locale related crash. Closes: #972672.
+
+ -- Matthias Klose <doko@debian.org>  Wed, 04 Nov 2020 18:01:32 +0100
+
+bash (5.1~rc1-2) unstable; urgency=medium
+
+  * Make the build reproducible. Closes: #935127.
+
+ -- Matthias Klose <doko@debian.org>  Thu, 15 Oct 2020 19:10:56 +0200
+
+bash (5.1~rc1-1) experimental; urgency=medium
+
+  * New upstream release candidate 1.
+
+ -- Matthias Klose <doko@debian.org>  Fri, 09 Oct 2020 17:47:40 +0200
+
+bash (5.1~beta1-1) experimental; urgency=medium
+
+  * New upstream snapshot 5.1 beta1.
+
+ -- Matthias Klose <doko@debian.org>  Thu, 17 Sep 2020 14:05:46 +0200
+
+bash (5.1~alpha1-1) experimental; urgency=medium
+
+  * New upstream snapshot 5.1 alpha1.
+
+ -- Matthias Klose <doko@debian.org>  Tue, 04 Aug 2020 19:24:57 +0200
+
+bash (5.0-7) unstable; urgency=medium
+
+  * Apply upstream patches 012 - 016.
+  * Bump debhelper version.
+
+ -- Matthias Klose <doko@debian.org>  Tue, 04 Aug 2020 11:49:30 +0200
+
+bash (5.0-6) unstable; urgency=medium
+
+  * Apply upstream patches 012 - 016.
+  * Bump standards version.
+
+ -- Matthias Klose <doko@debian.org>  Tue, 25 Feb 2020 12:44:22 +0100
+
+bash (5.0-5) unstable; urgency=medium
+
+  * Apply upstream patches 004 - 011.
+  * Bump standards version.
+
+ -- Matthias Klose <doko@debian.org>  Sun, 10 Nov 2019 11:45:12 +0100
+
 bash (5.0-4) unstable; urgency=medium
 
   * wait builtin: avoid hanging on inherited children. Closes: #920455.
