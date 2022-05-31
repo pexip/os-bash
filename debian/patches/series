@@ -1,6 +1,7 @@
-bash50-001.diff
-bash50-002.diff
-bash50-003.diff
+bash51-001.diff
+bash51-002.diff
+bash51-003.diff
+bash51-004.diff
 bashbug-editor.diff
 deb-bash-config.diff
 deb-examples.diff
@@ -20,6 +21,4 @@ bash-aliases-repeat.diff
 use-system-texi2html.diff
 bzero.diff
 man-macro-warnings.diff
-po-de-fix.diff
 man-vx-opts.diff
-wait-builtin-avoid-hanging-on-inherited-children.diff

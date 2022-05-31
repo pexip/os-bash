@@ -242,9 +242,8 @@ endif
 	: # files for the bash-doc package
 
 	dh_installexamples -p$(p_doc) examples/*
-	mv $(d_doc)/usr/share/doc/$(p_doc)/examples \
-		$(d_doc)/usr/share/doc/$(p)/examples
 	rm -rf $(d_doc)/usr/share/doc/$(p)/examples/loadables
+	mkdir -p $(d_doc)/usr/share/doc/$(p_doc)
 	ln -sf ../$(p)/examples $(d_doc)/usr/share/doc/$(p_doc)/examples
 
 	rm -rf $(d_doc)/usr/share/doc/$(p)/examples/obashdb
@@ -262,6 +261,14 @@ endif
 	$(ID) build-bash/examples/loadables/Makefile \
 		$(d_bins)/usr/share/doc/$(p)/examples/loadables
 	ln -sf bash $(d_bins)/usr/share/doc/$(p_bins)
+
+	sed -i \
+		-e 's@-ffile-prefix-map=[^ ]*[ ]*@@g' \
+		-e 's@-fdebug-prefix-map=[^ ]*[ ]*@@g' \
+		-e 's@^BUILD_DIR =.*@BUILD_DIR = /path/to/build-dir@' \
+		$(d)/usr/bin/bashbug \
+		$(d_bins)/usr/lib/bash/Makefile.inc \
+		$(d_bins)/usr/share/doc/$(p)/examples/loadables/Makefile
 
 #	cat debian/README stamps/stamp-patch > debian/README.Debian
 	cat debian/README > debian/README.Debian
