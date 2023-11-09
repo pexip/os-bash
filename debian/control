@@ -13,7 +13,7 @@ Build-Conflicts: r-base-core
 Homepage: http://tiswww.case.edu/php/chet/bash/bashtop.html
 Vcs-Browser: https://code.launchpad.net/~doko/+junk/pkg-bash-debian
 Vcs-Bzr: http://bazaar.launchpad.net/~doko/+junk/pkg-bash-debian
-XS-Pexip-Upstream: http://deb.debian.org/debian/ bullseye
+XS-Pexip-Upstream: http://deb.debian.org/debian/ bookworm
 
 Package: bash
 Architecture: any
