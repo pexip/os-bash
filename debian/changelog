@@ -1,3 +1,9 @@
+bash (5.2.15-2pexip2) pexip-bookworm; urgency=medium
+
+  * Initial bookworm build
+
+ -- Mark Hymers <mark.hymers@pexip.com>  Thu, 16 Nov 2023 09:55:28 +0000
+
 bash (5.2.15-2pexip1) pexip-bookworm; urgency=medium
 
   * Initial bookworm build
