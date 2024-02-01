@@ -1,3 +1,9 @@
+bash (5.2.15-2+b2+pexip24u2) pexip-bookworm; urgency=medium
+
+  * New versioning scheme
+
+ -- Mark Hymers <mark.hymers@pexip.com>  Thu, 01 Feb 2024 15:52:30 +0000
+
 bash (5.2.15-2+b2pexip1) pexip-bookworm; urgency=medium
 
   * Bump version to supersede Debian point release binNMU.
